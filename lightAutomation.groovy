@@ -9,19 +9,19 @@ definition(
 )
 
 preferences {
-	page(name: "configurations", install: true, uninstall: true)
+    page(name: "configurations", install: true, uninstall: true)
 }
 
 def configurations() {
-	dynamicPage(name: "configurations", title: "Configurations") {
-		section(title: "Select lights") {
+    dynamicPage(name: "configurations", title: "Configurations") {
+        section(title: "Select lights") {
             input "lights", "capability.switch", title: "Lights", multiple: true, required: false
-		}
+        }
 
-		section(title: "Select dimmers") {
+        section(title: "Select dimmers") {
             input "dimmers", "capability.switchLevel", title: "Dimmers", multiple: true, required: false
             input "dimmerLevel", "number", title: "How bright", required: false, description: "0% to 100%"
-		}
+        }
 
         section("Select motion sensor") {
             input "motionSensor", "capability.motionSensor", title: "Motion Sensor", required: true
@@ -47,28 +47,28 @@ def configurations() {
             }
         }
 
-		section ("Assign a name") {
-			label title: "Assign a name", required: false
+        section ("Assign a name") {
+            label title: "Assign a name", required: false
         }
     }
 }
 
 def installed() {
-	log.debug "Installed with settings: ${settings}."
-	initialize()
+    log.debug "Installed with settings: ${settings}."
+    initialize()
     state.mode = "normal"
     state.dark = true
 }
 
 def updated() {
-	log.debug "Updated with settings: ${settings}."
-	unsubscribe()
-	initialize()
+    log.debug "Updated with settings: ${settings}."
+    unsubscribe()
+    initialize()
 }
 
 def initialize() {
-	subscribe(motionSensor, "motion", motionHandler)
-	subscribe(lightSensor, "illuminance", illuminanceHandler, [filterEvents: false])
+    subscribe(motionSensor, "motion", motionHandler)
+    subscribe(lightSensor, "illuminance", illuminanceHandler, [filterEvents: false])
     subscribe(location, "routineExecuted", routineChanged)
 }
 
