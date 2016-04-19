@@ -9,6 +9,10 @@ function checkGmail() {
     var messages = threads[0].getMessages()
 
     for (var j = 0; j < messages.length; j++) {
+      if (!messages[j].isStarred()) {
+        continue;
+      }
+
       var body = messages[j].getPlainBody();
 
       var index = body.indexOf('--');
